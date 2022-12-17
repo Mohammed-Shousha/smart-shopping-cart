@@ -1,67 +1,27 @@
-import React from 'react';
-import styled from "styled-components";
-import colors from '../theme/Theme.js'
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
+import { Header } from '../components/Header'
+import { CenterContainer } from '../components/Containers'
+import { StartButton} from '../components/Buttons'
 
-
-const Header = styled.div`
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   width: 100vw;
-   height: 20vh;
-   background: ${colors.grey};
-   color: ${colors.background};
-
-   > h1 {
-      font-size: 2rem;
-      margin: 2% ;
-      text-shadow: 1px 2px black;
-   }
-`
-
-const ButtonContainer = styled.div`
-   display: flex;
-   flex-direction:column ;
-   background: ${colors.background};
-   width:100vw;
-   height:80vh;
-   justify-content: center;
-   align-items: center;
-   flex-direction: column;
-`
-
-const StartButton = styled.button`
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   width: 45vw;
-   padding: 5%;
-   background: ${colors.red};
-   color: ${colors.background};
-   border-radius: 5rem;
-   border: 0;
-   box-shadow: 5px 5px 5px grey;
-   
-   > h1 {
-      margin: 0;
-      font-size: 2rem;
-   }
-`
 
 const Start = () => {
+
+   const navigate = useNavigate()
    return (
       <>
          <Header>
             <h1>SMART CART</h1>
          </Header>
-         <ButtonContainer>
-            <StartButton>
+
+         <CenterContainer>
+            <StartButton onClick={()=> navigate('/cart')}>
                <h1>Start Shopping</h1>
             </StartButton>
-         </ButtonContainer>
+         </CenterContainer>
 
       </>
-   );
-}  
+   )
+}
 
-export default Start;
+export default Start
