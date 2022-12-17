@@ -1,28 +1,25 @@
-import React, { Suspense } from "react";
-import { ThemeProvider } from "styled-components";
-import Loader from "./components/Loader";
-import Viewer from "./components/Viewer";
-import Start from "./pages/Start";
-import theme from "./theme/Theme";
-import "./App.css";
+import React from "react"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import Start from "./pages/Start"
+import Cart from "./pages/Cart"
+import Checkout from "./pages/Checkout"
+import Payment from "./pages/Payment"
+import Thankyou from "./pages/Thankyou"
+import { items } from "./data/database"
+import "./App.css"
 
-
-const Page = () => {
-   return (
-      <ThemeProvider theme={theme}>
-         <div className="App">
-            {/* <Viewer /> */}
-            <Start/>
-         </div>
-      </ThemeProvider>
-   );
-}
 
 const App = () => {
    return (
-      <Suspense fallback={<Loader />}>
-         <Page />
-      </Suspense>
-   );
+      <Router>
+         <Routes>
+            <Route path="/" exact element={<Start />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/checkout" element={<Checkout items={items} />} />
+            <Route path="/payment" element={<Payment items={items} />} />
+            <Route path="/thankyou" element={<Thankyou />} />
+         </Routes>
+      </Router>
+   )
 }
-export default App;
+export default App
