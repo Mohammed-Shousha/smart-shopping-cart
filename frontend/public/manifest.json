@@ -3,17 +3,17 @@
   "name": "Smart Cart",
   "icons": [
     {
-      "src": "cart.ico",
+      "src": "favicon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
     {
-      "src": "cart128.png",
+      "src": "logo128.png",
       "type": "image/png",
       "sizes": "128x128"
     },
     {
-      "src": "cart512.png",
+      "src": "logo512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
