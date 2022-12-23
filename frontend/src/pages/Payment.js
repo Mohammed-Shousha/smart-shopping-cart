@@ -10,9 +10,7 @@ import { urls } from '../data/database'
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API)
 
-const Payment = ({ items }) => {
-
-   const totalPrice = items.reduce((total, item) => total + (item.price * item.qty), 0) * 100
+const Payment = ({ totalPrice }) => {
 
    return (
       <>
@@ -21,14 +19,14 @@ const Payment = ({ items }) => {
          </Header>
          <Container>
             <Elements stripe={stripePromise}>
-               <PaymentForm total={totalPrice} />
+               <PaymentForm totalPrice={totalPrice} />
             </Elements>
          </Container>
       </>
    )
 }
 
-const PaymentForm = ({ total }) => {
+const PaymentForm = ({ totalPrice }) => {
 
    const stripe = useStripe()
    const elements = useElements()
@@ -70,7 +68,7 @@ const PaymentForm = ({ total }) => {
          const response = await fetch(urls.PAYMENT, {
             method: "post",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ total }),
+            body: JSON.stringify({ totalPrice }),
          });
          const data = await response.json()
          setClientSecret(data.clientSecret)

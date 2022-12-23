@@ -7,11 +7,11 @@ import { CamContainer, Container } from '../components/Containers'
 import { Header } from '../components/Header'
 import { Total } from '../components/Total'
 import { Icon } from '../components/Icon'
-import { items, predictions, urls, videoConstraints } from '../data/database'
-import emptyCart from '../data/cart.svg'
+import { items, itemsNames, urls, videoConstraints } from '../data/database'
+import emptyCart from '../data/images/cart.svg'
 
 
-const Cart = () => {
+const Cart = ({ setCartItems, setTotalPrice }) => {
 
    const webcamRef = useRef(null)
    const ws = useRef(null)
@@ -26,15 +26,14 @@ const Cart = () => {
 
    let newResults = prediction.map(result => [result.split(" ")[1], result.split(" ")[0]]) // [["name", "qty"], ...]
 
-   newResults = newResults.map(result => [predictions.indexOf(result[0]), result[1]]) // [[index, "qty"], ...]
+   newResults = newResults.map(result => [itemsNames.indexOf(result[0]), result[1]]) // [[index, "qty"], ...]
 
-   items.map(item => newResults.map(result => item.id === result[0] ? item.qty = result[1] : 0)) // update qty
+   const filteredItems = items.filter(item => newResults.some(result => result.includes(item.id))) // filter items
 
-   const filteredItems = items.filter(item => item.qty > 0) // filter items
+   filteredItems.map(item => newResults.map(result => item.id === result[0] ? item.qty = result[1] : 0)) // update qty
 
    const totalPrice = filteredItems.reduce((total, item) => total + (item.price * item.qty), 0)
-
-
+   
    useEffect(() => {
       const client_id = Date.now()
       const url = `${urls.WS_SERVER}/${client_id}`
@@ -58,6 +57,7 @@ const Cart = () => {
          setPrediction(eval(message.prediction))
          console.log(message)
       }
+      
 
       setInterval(() => {
          capture()
@@ -75,6 +75,12 @@ const Cart = () => {
       if (!webcamRef.current) return
       const capturedImg = webcamRef.current.getScreenshot()
       sendMessage(capturedImg)
+   }
+
+   const next = () => {
+      navigate('/checkout')
+      setCartItems(filteredItems)
+      setTotalPrice(totalPrice)
    }
 
    return (
@@ -106,7 +112,7 @@ const Cart = () => {
                      <h1>{totalPrice} EGP</h1>
                   </Total>
 
-                  <Button onClick={() => navigate('/checkout')}>
+                  <Button onClick={next}>
                      <h1> Checkout </h1>
                   </Button>
                </>}

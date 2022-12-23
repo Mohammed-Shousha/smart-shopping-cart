@@ -7,12 +7,9 @@ import { Header } from '../components/Header'
 import { CheckoutContainer } from '../components/Containers'
 
 
-const Checkout = ({ items }) => {
+const Checkout = ({ cartItems, totalPrice }) => {
 
    const navigate = useNavigate()
-
-   items = items.filter(item => item.qty > 0)
-   const totalPrice = items.reduce((total, item) => total + (item.price * item.qty), 0)
 
    return (
       <>
@@ -29,7 +26,7 @@ const Checkout = ({ items }) => {
                <h3>Total</h3>
             </CheckoutHeader>
 
-            {items.map(item => (
+            {cartItems.map(item => (
                <CheckoutItem key={item.id}>
                   <p>{item.name}</p>
                   <p>{item.price}</p>
