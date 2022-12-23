@@ -8,11 +8,17 @@ from io import BytesIO
 from typing import List
 
 import uvicorn
-from fastapi import FastAPI, File, UploadFile, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, File, UploadFile, WebSocket, WebSocketDisconnect, Request
+from fastapi.encoders import jsonable_encoder
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from model import yolov5
 from PIL import Image
 from starlette.responses import Response
+
+import stripe
+
+stripe.api_key = 'sk_test_51HVa76KSon2LsBHhy5nst1lMn7VLVPwqHbntHMWQ7CrUOVlYQYVfMuKK1hhoVvGCCpgO34immE5ApmpTR6L66KYi0085xpnlxk'
 
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
@@ -22,6 +28,21 @@ app = FastAPI(
     title="Serving YOLO",
     description="""Visit port 8088/docs for the FastAPI documentation.""",
     version="0.0.1",
+)
+
+origins = [
+    "http://localhost",
+    "http://192.168.1.18",
+    "http://localhost:3000",
+    "http://192.168.1.18:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 
@@ -56,7 +77,7 @@ def base64_encode_img(img):
     img_byte = buffered.getvalue()
     encoded_img = "data:image/png;base64," + base64.b64encode(img_byte).decode()
     return encoded_img
-
+ 
 
 @app.get("/")
 def home():
@@ -77,6 +98,21 @@ def process_yolov5(file: UploadFile = File(...)):
     converted_img.save(name)
     converted_img.save(bytes_io, format="PNG")
     return Response(bytes_io.getvalue(), media_type="image/png")
+
+
+@app.post('/payment')
+async def create_payment(requsest: Request):
+    try:
+        data = await requsest.json()
+        intent = stripe.PaymentIntent.create(
+            amount=data['totalPrice'] * 100,
+            currency='usd',
+        )
+        return jsonable_encoder({
+            'clientSecret': intent['client_secret']
+        })
+    except Exception as e:
+        return jsonable_encoder(str(e))
 
 
 @app.websocket("/yolo_ws/{client_id}")

@@ -1,17 +1,9 @@
 import torch
-import os
 import logging
-from dotenv import load_dotenv, find_dotenv
 from PIL import Image
 
-load_dotenv(find_dotenv())
-# yolo_model = os.getenv("YOLO_MODEL", "yolov5s")
-
-# logging.info(f"YOLO model - {yolo_model}")
-
-# model = torch.hub.load("ultralytics/yolov5", yolo_model, pretrained=True)
 model = torch.hub.load('ultralytics/yolov5', 'custom',
-                       path='best.pt', force_reload=True)
+                       path='best.pt')
 
 def yolov5(img):
     """Process a PIL image."""
