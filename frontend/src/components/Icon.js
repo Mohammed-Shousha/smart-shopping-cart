@@ -1,6 +1,6 @@
 import styled from "styled-components"
 
 export const Icon = styled.img`
-   width: 20vw;
+   width: ${props=> props.small ? '12vw' : '20vw'};
    margin: 5vh 0;
 `
