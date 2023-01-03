@@ -54,6 +54,8 @@ export const videoConstraints = {
 }
 
 export const urls = {
-   WS_SERVER: "ws://192.168.1.18:8088/yolo_ws",
-   PAYMENT: "http://192.168.1.18:8088/payment"
+   WS_SERVER: "ws://192.168.1.23:8088/yolo_ws",
+   PAYMENT: "http://192.168.1.23:8088/payment"
 }
+
+export const timeInterval = 5000 // 5 seconds

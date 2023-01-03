@@ -7,7 +7,7 @@ import { CamContainer, Container } from '../components/Containers'
 import { Header } from '../components/Header'
 import { Total } from '../components/Total'
 import { Icon } from '../components/Icon'
-import { items, itemsNames, urls, videoConstraints } from '../data/database'
+import { items, itemsNames, urls, videoConstraints, timeInterval } from '../data/database'
 import emptyCart from '../data/images/cart.svg'
 
 
@@ -61,7 +61,7 @@ const Cart = ({ setCartItems, setTotalPrice }) => {
 
       setInterval(() => {
          capture()
-      }, 10000)
+      }, timeInterval)
 
    }, [isPaused])
 
