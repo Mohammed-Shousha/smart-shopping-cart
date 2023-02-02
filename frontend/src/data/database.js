@@ -40,7 +40,6 @@ export const itemsNames = ['indomie', 'tea', 'pepsi', 'doritos']
 export const colors = {
    background: "#F5EDDC",
    grey: '#CFD2CF',
-   pink: '#FA9494',
    red: '#EB1D36',
    blue: "#497174",
    navy: '#30475E',
@@ -54,8 +53,8 @@ export const videoConstraints = {
 }
 
 export const urls = {
-   WS_SERVER: "ws://192.168.1.23:8088/yolo_ws",
-   PAYMENT: "http://192.168.1.23:8088/payment"
+   WS_SERVER: "ws://192.168.166.230:8088/yolo_ws",
+   PAYMENT: "http://192.168.166.230:8088/payment"
 }
 
-export const timeInterval = 5000 // 5 seconds
+export const timeInterval = 3000 // 3 seconds

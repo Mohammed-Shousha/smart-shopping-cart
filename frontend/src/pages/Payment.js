@@ -8,6 +8,7 @@ import { Container } from '../components/Containers'
 import { cardStyle, PaymentContainer } from '../components/PaymentComponents'
 import { urls } from '../data/database'
 
+
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API)
 
 const Payment = ({ totalPrice }) => {
@@ -28,15 +29,16 @@ const Payment = ({ totalPrice }) => {
 
 const PaymentForm = ({ totalPrice }) => {
 
+
    const stripe = useStripe()
    const elements = useElements()
-
    const navigate = useNavigate()
 
    const [succeeded, setSucceeded] = useState(false)
    const [error, setError] = useState(null)
    const [processing, setProcessing] = useState('')
    const [clientSecret, setClientSecret] = useState('')
+
 
    const handleSubmit = async (e) => {
       e.preventDefault()
@@ -50,8 +52,8 @@ const PaymentForm = ({ totalPrice }) => {
 
       if (payload.error) {
          setError(`Payment failed ${payload.error.message}`)
-         setTimeout(() => { 
-            setError(null) 
+         setTimeout(() => {
+            setError(null)
          }, 3000)
          setProcessing(false)
       } else {
@@ -60,7 +62,6 @@ const PaymentForm = ({ totalPrice }) => {
          setSucceeded(true)
          navigate('/thankyou')
       }
-
    }
 
    useEffect(() => {
@@ -77,17 +78,20 @@ const PaymentForm = ({ totalPrice }) => {
       fetchData()
    }, [])
 
+
    return (
       <PaymentContainer onSubmit={handleSubmit}>
          <div>
-            <CardElement options={cardStyle} />
+            <CardElement
+               options={cardStyle}
+            />
             {error && <p>{error}</p>}
          </div>
+
          <Button type='submit' disabled={processing || succeeded}>
             <h1>Pay</h1>
          </Button>
       </PaymentContainer>
-
    )
 }
 
