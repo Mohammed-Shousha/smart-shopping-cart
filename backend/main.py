@@ -1,5 +1,6 @@
 import base64
 import io
+import os
 import json
 import logging
 import sys
@@ -18,7 +19,7 @@ from starlette.responses import Response
 
 import stripe
 
-stripe.api_key = 'sk_test_51HVa76KSon2LsBHhy5nst1lMn7VLVPwqHbntHMWQ7CrUOVlYQYVfMuKK1hhoVvGCCpgO34immE5ApmpTR6L66KYi0085xpnlxk'
+stripe.api_key = os.environ.get('STRIPE_SECRET_KEY')
 
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
